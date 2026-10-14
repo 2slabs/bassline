@@ -27,5 +27,6 @@
     "vite": "^6.0.0"
   },
   "private": true,
-  "description": "Bassline generator for Ableton Live: from a chord/melody clip or from scratch, for techno, dub techno and house."
+  "description": "Bassline generator for Ableton Live: from a chord/melody clip or from scratch, for techno, dub techno and house.",
+  "license": "MIT"
 }

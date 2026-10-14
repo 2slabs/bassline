@@ -64,3 +64,7 @@ Live's Developer Mode accepts one Extension Host at a time, so run companions to
 ## Credits
 
 UI: 2sl-ui. Font: [Cozette](https://github.com/slavfox/Cozette) (MIT). Ableton and Live are trademarks of Ableton AG; this project isn't affiliated with or endorsed by Ableton.
+
+## License
+
+MIT, see [LICENSE](LICENSE). That covers this repo's code. The Ableton Extensions SDK isn't included and is under Ableton's own licence. Fonts and other bundled assets keep their own licences (Cozette: MIT).
