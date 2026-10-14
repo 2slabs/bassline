@@ -39,6 +39,8 @@ The bass is always monophonic, held notes re-strike on chord changes, and the fi
 
 Requires **Ableton Live 12 Suite, 12.4.5 or later, with Extensions** (currently the Live beta). Drop the `.ablx` onto **Settings → Extensions**.
 
+If the right-click item doesn't appear, turn off **Settings → Extensions → Developer Mode**: while it's on, Live waits for a development host and installed extensions' menus don't show.
+
 ## Develop
 
 Setup is the same as chord-progressions (Node ≥ 24.16; copy the SDK `.tgz` files into `vendor/`, write `.env`, `npm install`; the SDK can't be redistributed so it isn't in the repo).
