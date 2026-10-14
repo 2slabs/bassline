@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <title>bassline</title>
+    <script>
+      // Replaced by the extension with the source clips, targets, key, tempo and saved settings.
+      window.__INIT__ = null;
+    </script>
+    <!-- The 2sl-ui design system (synced into ./2sl by 2sl-ui/scripts/sync.sh; edit it there). -->
+    <link rel="stylesheet" href="./2sl/tokens.css" />
+    <link rel="stylesheet" href="./2sl/components.css" />
+    <style>
+      /* Layout for this dialog only. */
+      html, body { height: 100%; }
+      body {
+        display: flex; flex-direction: column; gap: calc(var(--unit) * 3);
+        padding: calc(var(--unit) * 4); user-select: none; -webkit-user-select: none;
+      }
+      .inline { display: inline-flex; align-items: center; gap: calc(var(--unit) * 2); }
+      .span3 { grid-column: 2 / span 3; }
+      .swatch { width: 12px; height: 12px; border: 1px solid var(--ink); background: var(--hue); flex: none; }
+      #source { min-width: 260px; }
+      #style, #pattern { min-width: 170px; }
+      #target { min-width: 220px; }
+      .value { min-width: 8ch; }
+      .hidden { display: none !important; }
+
+      /* step grid shows each step's note role */
+      .ui-steps button { font: inherit; line-height: 16px; padding: 0; color: var(--inverse); }
+      .ui-steps button.x { color: var(--pad-text); }
+
+      /* piano roll: chords on top as lit pads, the bass line underneath */
+      #roll { flex: 1; min-height: 120px; position: relative; border: 1px solid var(--ink); }
+      #roll svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      #roll .band { fill: var(--hue); stroke: var(--pad-edge); }
+      #roll .band-label { fill: var(--pad-text); font: var(--small) var(--font); }
+      #roll .bar { stroke: var(--unlit); stroke-width: 1; }
+      #roll .beat { stroke: var(--unlit); stroke-width: 1; opacity: 0.35; }
+      #roll .note { fill: var(--ink); }
+      #roll .note.ghost { fill: var(--unlit); }
+      #roll .pitch { fill: var(--label); font: var(--small) var(--font); }
+      #roll .playhead { stroke: var(--now); stroke-width: 2; }
+      #roll .empty { fill: var(--label); font: var(--small) var(--font); }
+    </style>
+  </head>
+  <body>
+    <header class="ui-header">
+      <span class="ui-wordmark">bassline</span>
+      <span class="ui-status" id="status"></span>
+      <span class="spacer"></span>
+      <span class="ui-status" id="tempo"></span>
+      <span id="theme" title="dialog theme"></span>
+    </header>
+
+    <div class="ui-params">
+      <span class="label">follow</span>
+      <select id="source" aria-label="what the bass follows"></select>
+      <span class="label">key</span>
+      <span class="inline"><select id="root" aria-label="root"></select><select id="scale" aria-label="scale"></select></span>
+
+      <span class="label">chords</span>
+      <span class="inline span3">
+        <span id="source-harmony" class="inline"><span class="ui-label">change every</span><span id="resolution"></span></span>
+        <span id="scratch-harmony" class="inline"><select id="count" aria-label="number of chords"></select><span id="length"></span><button class="ui-key" id="new-chords"><kbd>c</kbd>new chords</button></span>
+      </span>
+    </div>
+
+    <div class="ui-rule"></div>
+
+    <div class="ui-params">
+      <span class="label">style</span>
+      <span class="inline"><span class="swatch" aria-hidden="true"></span><select id="style" aria-label="style"></select></span>
+      <span class="label">pattern</span>
+      <select id="pattern" aria-label="bass pattern"></select>
+
+      <span class="label">register</span>
+      <span id="register"></span>
+      <span class="label" title="octave swaps, fifths and ghost notes">variation</span>
+      <span class="inline"><span id="variation"><input aria-label="variation" /></span><span class="value" id="variation-value"></span></span>
+
+      <span class="label" title="a semitone into each chord change">approach</span>
+      <span class="inline"><button id="approach" aria-label="approach notes"></button><span class="ui-label" title="the last two beats lead back to the top of the loop">turnaround</span><button id="turnaround" aria-label="turnaround fill"></button><span class="ui-label" title="chord changes land a 16th early">push</span><button id="push" aria-label="push"></button></span>
+      <span class="label">swing</span>
+      <span class="inline"><span id="swing"><input aria-label="swing" /></span><span class="value" id="swing-value"></span><span id="swing-presets"></span></span>
+    </div>
+
+    <div class="ui-steps" id="steps" title="click a step: rest → R root → O octave → F fifth → A approach → r ghost"></div>
+
+    <div id="roll" aria-label="the bassline under its chords"></div>
+
+    <div class="ui-params">
+      <span class="label">into</span>
+      <span class="inline span3"><select id="target" aria-label="track for the bass clip"></select><span class="ui-hint" id="where"></span></span>
+    </div>
+
+    <footer class="ui-footer">
+      <button class="ui-key" id="generate"><kbd>g</kbd>generate</button>
+      <button class="ui-key" id="play"><kbd>space</kbd><span>preview</span></button>
+      <span class="inline"><span class="ui-label">with chords</span><button id="hear-chords" aria-label="hear the chords in the preview"></button></span>
+      <span class="spacer"></span>
+      <button class="ui-key" id="cancel"><kbd>esc</kbd>cancel</button>
+      <button class="ui-key primary" id="insert"><kbd>ret</kbd>insert clip</button>
+    </footer>
+    <script type="module" src="./app.ts"></script>
+  </body>
+</html>
