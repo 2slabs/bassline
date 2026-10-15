@@ -33,7 +33,7 @@ export interface BassPattern {
 export const BASS_PATTERNS: BassPattern[] = [
   // dub techno: sub weight and space, notes between the beats, stepwise moves around the ♭7.
   // "rising steps" follows the shape of Rhythm & Sound's "Never Tell You": a 4-bar call and response.
-  { id: "dub-steps", label: "rising steps", group: "dub", bar: "....D-P-B-........R-B-R-B-..........D-P-B-..............R-B-......" },
+  { id: "dub-steps", label: "rising steps", group: "dub", bar: "....D-P-B-........R-B-R-B-..........D-P-B-............R-B-......" },
   { id: "dub-after", label: "after the kick", group: "dub", bar: "..R---------...." },
   { id: "dub-two", label: "two notes", group: "dub", bar: "..R-------........D-------..R-.." },
   { id: "dub-tresillo", label: "dotted sub", group: "dub", bar: "R-----R-------..R-----.........." },

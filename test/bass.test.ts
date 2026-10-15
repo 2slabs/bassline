@@ -11,7 +11,10 @@ const plain: BassSettings = { pattern: "roots", register: "low", variation: 0, f
 const pc = (p: number) => ((p % 12) + 12) % 12;
 
 test("all built-in patterns are one or two bars of valid steps", () => {
-  for (const p of BASS_PATTERNS) assert.ok(isPattern(p.id), p.id);
+  for (const p of BASS_PATTERNS) {
+    assert.ok(isPattern(p.id), p.id);
+    assert.ok(isPattern(customPattern(p.bar)), `${p.id}: ${p.bar.length} steps`);
+  }
   assert.ok(isPattern(customPattern("R...O...R...F...")));
   assert.ok(isPattern(customPattern("R...O...R...F...".repeat(2))));
   assert.ok(isPattern(customPattern("R...O...R...F...".repeat(4))));
@@ -160,7 +163,7 @@ test("rising steps: the dub line walks fifth below → passing → ♭7, then an
   const names = notes.map((n) => pc(n.pitch));
   // E F G | A G A G | E F G | A G  (Rhythm & Sound, "Never Tell You", in A minor)
   assert.deepEqual(names, [4, 5, 7, 9, 7, 9, 7, 4, 5, 7, 9, 7]);
-  assert.ok(notes.every((n) => Math.abs(n.startTime % 4) > 1e-6), "never on a bar's downbeat");
+  assert.deepEqual(notes.map((n) => n.startTime), [1, 1.5, 2, 4.5, 5, 5.5, 6, 9, 9.5, 10, 13.5, 14]);
 });
 
 test("dotted 8ths: Good Life's rhythm, a hit every third 16th", () => {
