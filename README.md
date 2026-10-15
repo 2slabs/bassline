@@ -18,22 +18,25 @@ In the dialog:
 
 - **follow / key**: the source, and its key. The key comes from Live's Scale Mode when it's on; otherwise it's detected (tonic from the first chord, mode from the notes). Change it if it's wrong.
 - **chords**: how often the source's chords may change (½ bar, 1 bar, 2 bars). From scratch: how many chords, how long, and **c** for new ones (same engine and styles as chord-progressions).
-- **style** sets the bass defaults per genre:
+- **style** sets the bass defaults per genre (what they're based on: [RESEARCH.md](RESEARCH.md)):
 
   | style | pattern | feel |
   |---|---|---|
-  | dub techno | sub on the one | long sub notes, sub register |
-  | deep house | offbeat octaves | approach notes, turnaround, 58% swing, push |
-  | classic house | walking | approach notes, turnaround, 54% swing, push |
-  | detroit techno | rolling 8ths | approach notes |
-  | hypnotic techno | rolling 16ths | leaves the kick alone |
-  | functional (pop) | root and fifth | approach notes, turnaround |
+  | dub techno | rising steps | sub register, ~3 notes a bar, stepwise around the ♭7, 4-bar call and response |
+  | deep house | syncopated | 2-bar riff on root / octave / seventh, pickup, 56% swing |
+  | classic house | jack | jacking ostinato, pickup, push, 54% swing |
+  | detroit | dotted 8ths | a hit every third 16th, following the chords a 16th early |
+  | hypnotic techno | rolling 16ths | one note between the kicks, drone on the key |
+  | functional (pop) | root and fifth | approach notes, pickup |
 
-- **pattern**: 18 patterns in dub, house, detroit, techno and simple groups, or draw your own on the step grid. Each step is a *role*: `R` root, `O` octave, `F` fifth, `A` approach, lowercase = ghost (in custom patterns, also `T` third, `S` seventh, `P` passing tone).
-- **register** (sub / low / mid), **variation** (octave swaps, fifths, ghost notes), **approach** (a semitone into each chord change), **turnaround** (last two beats lead back to the top), **push** (changes land a 16th early), **swing**.
+- **pattern**: riffs of one to four bars in dub, deep house, house, detroit, techno and simple groups, or draw your own on the step grid. Each step is a *role*: `R` root, `O` octave, `F` fifth, `D` fifth below, `B` scale step below (the ♭7 in minor), `S` seventh, lowercase = soft (custom patterns can also use `T` third, `A` approach, `P` passing).
+- **register** (sub / low / mid); **moves** with every **chord**, once a **bar**, or drones on the **key**.
+- **variation**: at 0 the riff repeats exactly. Higher values make one or two changes in the riff's own notes and rework the end of each phrase.
+- **approach** (a semitone into each chord change), **pickup** (one note at the end of the loop leading back to the top), **push** (changes land a 16th early), **swing**.
+- Accents come out as two velocities: map velocity to your bass synth's filter for movement.
 - **generate** (g) rolls new variation; **preview** (space) plays the bass at your tempo, optionally with the chords quietly underneath.
 
-The bass is always monophonic, held notes re-strike on chord changes, and the first note of each chord is its root.
+The bass is always monophonic, held notes re-strike on chord changes, and the first note of each chord is a chord tone.
 
 ## Install
 

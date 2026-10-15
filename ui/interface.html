@@ -76,16 +76,18 @@
 
       <span class="label">register</span>
       <span id="register"></span>
-      <span class="label" title="octave swaps, fifths and ghost notes">variation</span>
+      <span class="label" title="what the root moves with: every chord change, the chord on each bar, or the key (a drone)">moves</span>
+      <span id="follow"></span>
+      <span class="label" title="how far the riff strays: a few changes, and a bigger one at the end of each 4-bar phrase">variation</span>
       <span class="inline"><span id="variation"><input aria-label="variation" /></span><span class="value" id="variation-value"></span></span>
 
       <span class="label" title="a semitone into each chord change">approach</span>
-      <span class="inline"><button id="approach" aria-label="approach notes"></button><span class="ui-label" title="the last two beats lead back to the top of the loop">turnaround</span><button id="turnaround" aria-label="turnaround fill"></button><span class="ui-label" title="chord changes land a 16th early">push</span><button id="push" aria-label="push"></button></span>
+      <span class="inline"><button id="approach" aria-label="approach notes"></button><span class="ui-label" title="a pickup on the last 8th leads back to the top of the loop">pickup</span><button id="turnaround" aria-label="pickup into the loop"></button><span class="ui-label" title="chord changes land a 16th early">push</span><button id="push" aria-label="push"></button></span>
       <span class="label">swing</span>
       <span class="inline"><span id="swing"><input aria-label="swing" /></span><span class="value" id="swing-value"></span><span id="swing-presets"></span></span>
     </div>
 
-    <div class="ui-steps" id="steps" title="click a step: rest → R root → O octave → F fifth → A approach → r ghost"></div>
+    <div class="ui-steps" id="steps" title="click a step: rest → R root → r soft root → O octave → F fifth → D fifth below → B step below → S seventh"></div>
 
     <div id="roll" aria-label="the bassline under its chords"></div>
 

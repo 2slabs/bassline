@@ -20,7 +20,7 @@ export interface TargetOption {
 
 export interface Settings {
   /** Bumped when the shape changes, so stale saved settings are ignored. */
-  version: 1;
+  version: 2;
   /** A chord-progressions STYLES id: sets the bass defaults (and the scratch harmony). */
   style: string;
   bass: BassSettings;

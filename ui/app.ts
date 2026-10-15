@@ -2,7 +2,7 @@
 import { SCALES, ROOT_LABELS, buildChord, generate, noteNames, voice, type Harmony, type Step } from "../src/music/theory.ts";
 import { STYLES, styleById, type Style } from "../src/music/styles.ts";
 import { analyze, detectLoopKey, type Key, type Segment, type SourceNote } from "../src/analysis.ts";
-import { BASS_DEFAULTS, BASS_PATTERNS, barOf, customPattern, generateBass, isPattern, type BassNote, type Register } from "../src/bass.ts";
+import { BASS_DEFAULTS, BASS_PATTERNS, barOf, customPattern, generateBass, isPattern, type BassNote, type Follow, type Register } from "../src/bass.ts";
 import type { Cancelled, Init, Result, Settings, SourceOption } from "../src/protocol.ts";
 import { applyTheme, closeDialog, fillSelect, radioGroup, slider, toggle } from "./2sl/ui.ts";
 
@@ -21,7 +21,7 @@ const scaleKeys = Object.keys(SCALES);
 function defaults(styleId: string): Settings {
   const style = styleById(styleId);
   return {
-    version: 1,
+    version: 2,
     style: style.id,
     bass: { ...(BASS_DEFAULTS[style.id] ?? BASS_DEFAULTS.functional) },
     resolution: 4,
@@ -38,7 +38,7 @@ function defaults(styleId: string): Settings {
 
 function initialSettings(): Settings {
   const saved = init.saved;
-  if (saved?.version !== 1) return defaults(STYLES[0].id);
+  if (saved?.version !== 2) return defaults(STYLES[0].id);
   const s: Settings = { ...defaults(saved.style), ...saved, bass: { ...defaults(saved.style).bass, ...saved.bass } };
   if (!isPattern(s.bass.pattern)) s.bass.pattern = defaults(s.style).bass.pattern;
   if (!SCALES[s.scratch.scale]) s.scratch.scale = styleById(s.style).scale;
@@ -198,6 +198,10 @@ function setupControls() {
       settings.bass.register = v as Register;
       changed();
     }),
+    radioGroup($("follow"), [["chord", "chords"], ["bar", "bars"], ["drone", "key"]], () => settings.bass.follow, (v) => {
+      settings.bass.follow = v as Follow;
+      changed();
+    }),
     slider($("variation"), null, { min: 0, max: 100, step: 5, marks: [25, 50, 75], valueEl: $("variation-value"), format: (v) => (v === 0 ? "none" : `${v}%`) },
       () => settings.bass.variation, (v, final) => { settings.bass.variation = v; if (final) changed(); }),
     slider($("swing"), $("swing-presets"), { min: 50, max: 75, marks: [54, 58, 62, 66, 71], valueEl: $("swing-value"), format: (v) => (v === 50 ? "straight" : `${v}%`) },
@@ -285,20 +289,22 @@ function render() {
   renderRoll();
 }
 
-const CYCLE = [".", "R", "O", "F", "A", "r"];
+const CYCLE = [".", "R", "r", "O", "F", "D", "B", "S"];
 
 function renderSteps() {
   const grid = $("steps");
   const bar = barOf(settings.bass.pattern);
   grid.innerHTML = "";
-  for (let beat = 1; beat <= 4; beat++) {
-    const label = document.createElement("span");
-    label.className = "beat";
-    label.style.gridColumn = `${(beat - 1) * 4 + 1} / span 4`;
-    label.textContent = String(beat);
-    grid.append(label);
-  }
   [...bar].forEach((c, i) => {
+    if (i % 16 === 0) {
+      for (let beat = 1; beat <= 4; beat++) {
+        const label = document.createElement("span");
+        label.className = "beat";
+        label.style.gridColumn = `${(beat - 1) * 4 + 1} / span 4`;
+        label.textContent = bar.length > 16 ? `${i / 16 + 1}.${beat}` : String(beat);
+        grid.append(label);
+      }
+    }
     const b = document.createElement("button");
     b.type = "button";
     if (c === "-") b.className = "hold";
@@ -312,7 +318,7 @@ function renderSteps() {
       const at = CYCLE.indexOf(c);
       const next = at < 0 ? "R" : CYCLE[(at + 1) % CYCLE.length];
       cells[i] = next;
-      if (next === ".") for (let k = i + 1; k < 16 && cells[k] === "-"; k++) cells[k] = ".";
+      if (next === ".") for (let k = i + 1; k < cells.length && cells[k] === "-"; k++) cells[k] = ".";
       settings.bass.pattern = customPattern(cells.join(""));
       changed(true);
     };
